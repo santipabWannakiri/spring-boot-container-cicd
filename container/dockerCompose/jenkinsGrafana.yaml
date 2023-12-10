@@ -1,0 +1,43 @@
+version: '4.0'
+
+services:
+  docker:
+    image: docker:dind
+    container_name: docker
+    restart: always
+    privileged: true
+    networks:
+      - docker-daemon
+    environment:
+      - DOCKER_TLS_CERTDIR=/certs
+    volumes:
+      - ../cert:/certs/server
+      - ../jinkens_home:/var/jenkins_home
+    ports:
+      - "2376:2376"
+
+  jenkins-blueocean:
+    image: myjenkins-blueocean:2.426.1-1
+    container_name: jenkins-blueocean
+    restart: on-failure
+    networks:
+      - docker-daemon
+    environment:
+      - DOCKER_HOST=tcp://docker:2376
+      - DOCKER_CERT_PATH=/certs/client # Update path to client certificate
+      - DOCKER_TLS_VERIFY=1
+    volumes:
+      - ../cert:/certs/client:ro # Update volume path
+      - ../jinkens_home:/var/jenkins_home
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    depends_on:
+      - docker
+
+networks:
+  docker-daemon:
+    driver: bridge
+
+volumes:
+  jenkins-docker-certs: # Remove redundant volume definition
