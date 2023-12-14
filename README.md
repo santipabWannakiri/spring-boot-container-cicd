@@ -15,3 +15,65 @@
 Remote Docker Daemon
 
 test
+
+ ```
+properties([parameters([string(defaultValue: '0.0', description: 'Docker image version', name: 'DOCKER_IMAGE_VERSION')])])
+
+pipeline {
+    agent any
+    
+    tools {
+        maven 'maven01'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/santipabWannakiri/spring-boot-container-cicd.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                script {
+                    echo 'Building with Maven:'
+                    withMaven(maven: 'maven01') {
+                        sh 'mvn clean install'
+                    }
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    echo "Building Docker image with version: ${params.DOCKER_IMAGE_VERSION}"
+                    sh "docker build -f ./container/dockerFile/springAppContainer -t app/spring-boot-cicd:${params.DOCKER_IMAGE_VERSION} ."
+  
+                }
+            }
+        }
+        
+                stage('Start container') {
+            steps {
+                script {
+                    echo "Starting container: app/spring-boot-cicd:${params.DOCKER_IMAGE_VERSION}"
+                    sh "docker run -p 8081:8081 -d app/spring-boot-cicd:${params.DOCKER_IMAGE_VERSION}"
+  
+                }
+            }
+        }
+        
+    }
+
+    post {
+        success {
+            echo 'Pipeline succeeded!'
+        }
+        failure {
+            echo 'Pipeline failed!'
+        }
+    }
+}
+
+ ```
