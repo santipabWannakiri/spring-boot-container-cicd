@@ -14,8 +14,6 @@
 
 Remote Docker Daemon
 
-test
-
  ```
 properties([parameters([string(defaultValue: '0.0', description: 'Docker image version', name: 'DOCKER_IMAGE_VERSION')])])
 
