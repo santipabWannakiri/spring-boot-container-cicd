@@ -17,7 +17,7 @@ As depicted in the illustration above, the steps are outlined below:
 `6.`The anticipated outcome is the ability to access Swagger UI, indicating the successful functioning of our application!\
 
 ## Prerequisite
-1.Github account
+1.Github account\
 3.Docker engine and install Docker Compose 
 
 This POC's going to setup everything based on Docker Compose, making it easy to start up all the components and integrate all of them to collaborate with each other.
