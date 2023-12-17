@@ -22,6 +22,8 @@ As depicted in the illustration above, the steps are outlined below:
 
 This POC's going to setup everything based on Docker Compose, making it easy to start up all the components and integrate all of them to collaborate with each other.
 
+The components that will start up with Docker Compose are the following:
+1.
 
 
 [Creating webhooks](https://docs.github.com/en/webhooks/using-webhooks/creating-webhooks)
