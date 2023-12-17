@@ -6,6 +6,15 @@ CI/CD stands as a crucial concept in modern software development, dismantling ba
 <p align="center">
   <img src="images/github-jenkins-scenario.jpg" alt="image description" width="550" height="400">
 </p>
+As depicted in the illustration above, the steps are outlined below:
+
+`1.`Create a Spring Boot application and commit the source code to GitHub.\
+`2.`Upon a new commit, the GitHub webhook will initiate a trigger to Jenkins.\
+`3.`Jenkins, upon receiving the trigger, will pull the latest source code from GitHub.\
+`4.1.` Execute the Maven command "mvn clean install" to build the JAR artifact.\
+`4.2.` Utilize a predefined Dockerfile to build a Docker image. This process requires the JAR artifacts generated in step 4.1 to be included in the image packaging.\
+`5.`Run container from Docker image created in step 4.2 within the Docker engine.\
+`6.`The anticipated outcome is the ability to access Swagger UI, indicating the successful functioning of our application!\
 
 [Creating webhooks](https://docs.github.com/en/webhooks/using-webhooks/creating-webhooks)
 [Testing webhooks](https://docs.github.com/en/webhooks/testing-and-troubleshooting-webhooks/testing-webhooks)
