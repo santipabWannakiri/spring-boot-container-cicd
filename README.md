@@ -1,4 +1,9 @@
 # spring-boot-container-cicd
+## Introduction
+CI/CD stands as a crucial concept in modern software development, dismantling barriers between development and operations teams. It fosters collaborative responsibilities, bringing synergy to the goals of both development and operations. In this article, I will guide you through a brief POC on integrating Git and Jenkins. While this article may not encompass an exhaustive list of other DevOps tools like Prometheus, Grafana, Jira, etc., it aims to provide a foundational understanding of Git-Jenkins integration
+
+## Scenario
+
 
 [Creating webhooks](https://docs.github.com/en/webhooks/using-webhooks/creating-webhooks)
 [Testing webhooks](https://docs.github.com/en/webhooks/testing-and-troubleshooting-webhooks/testing-webhooks)
