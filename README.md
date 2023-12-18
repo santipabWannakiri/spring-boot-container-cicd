@@ -150,24 +150,26 @@ Refer document : [Connect from a container to a service on the host](https://doc
  ```sh
 docker build -f ./path/of/Dockerfile -t name-of-image .
  ```
-3. Start docker compose
+3. Login to Ngrok copy authtoken to ./ngrok_home -> ngrok.yml -> authtoken
+
+4. Start docker compose
  ```sh
 docker compose -f ./container/docker-compose/cicd-container.yaml up -d
  ```
-4. Access to Jenkins dashboard
+5. Access to Jenkins dashboard
  ```sh
 http://localhost:8080/
  ```
-5. Install Github plugin  Manage Jenkins -> Plugins -> Available plugin -> github
+6. Install Github plugin  Manage Jenkins -> Plugins -> Available plugin -> github
 ```sh
 https://plugins.jenkins.io/github/
 ```
-6. Select This project is parameterized -> String Parameter\
+7. Select This project is parameterized -> String Parameter\
 Name: DOCKER_IMAGE_VERSION\
 Default Value: 0.0\
 Description : Docker image version
 
-7. Create pipeline New Item -> Pipline -> Pipeline Script -> then provide the script below
+8. Create pipeline New Item -> Pipline -> Pipeline Script -> then provide the script below
  ```yaml
 properties([parameters([string(defaultValue: '0.0', description: 'Docker image version', name: 'DOCKER_IMAGE_VERSION')])])
 
@@ -227,5 +229,10 @@ pipeline {
 
  ```
 
-8. Select Build Triggers -> GitHub hook trigger for GITScm polling
-9.
+9. Select Build Triggers -> GitHub hook trigger for GITScm polling
+
+10. Access to Ngrok portal and copy tunnel URLs
+```sh
+http://localhost:4040/inspect/http
+ ```
+11. Login to Github -> your repository -> setting 
