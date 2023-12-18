@@ -237,5 +237,11 @@ http://localhost:4040/inspect/http
  ```
 11. Login to Github -> your repository -> setting -> Webhooks -> Add webhook -> provide tunnel URLs -> application/json -> Add webhook
 
+When configuring tunnel URLs, it's crucial to include the path "/github-webhook/" to align with the local endpoint `http://localhost:8080/github-webhook/`, which serves as our Git trigger on the local Jenkins instance.
+
+Example
+```sh
+https://c8ed-184-22-122-102.ngrok-free.app/github-webhook/
+ ```
 12. Test to commit new code, and then check the Jenkins pipeline.
 
