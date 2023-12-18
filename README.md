@@ -35,7 +35,7 @@ The components that will start up with Docker Compose are the following:
 In an environment where all components are containerized, it is necessary to provide Jenkins with a Docker engine to facilitate image building and container execution.\
 In this scenario, the use of `docker:dind` is crucial. The `docker:dind` container encompasses both clients, daemons, and a registry. Consequently, after Jenkins completes the image building process, it pushes the images to the `docker:dind` container and initiates the application as a container. This approach is commonly referred to as `Docker in Docker`.
 
-DinD configuration, there are a few more things that we should focus on, including the following:\
+DinD configuration, there are a few more things that we should focus on, including the following:
  ```yaml
   docker:
     image: docker:dind
@@ -48,15 +48,17 @@ DinD configuration, there are a few more things that we should focus on, includi
       - DOCKER_TLS_CERTDIR=/certs
     volumes:
       - ../cert:/certs/server
-      - ../jinkens_home:/var/jenkins_home
     ports:
       - "2376:2376"
       - "8081:8081"
  ```
-> DOCKER_TLS_CERTDIR
+> `../cert:/certs/server` Export cerificate for setting up Docker to use TLS for secure communication between the Docker client and the Docker daemon.\
+> `DOCKER_TLS_CERTDIR` ndicates that Docker should look for TLS certificates in the /certs directory.
 
-Refer document : [How To Run Docker in Docker Container](https://devopscube.com/run-docker-in-docker/)
-
+Refer document :\
+[How To Run Docker in Docker Container](https://devopscube.com/run-docker-in-docker/)\
+[Protect the Docker daemon socket](https://docs.docker.com/engine/security/protect-access/#use-tls-https-to-protect-the-docker-daemon-socket)\
+[Docker-in-Docker with TLS enabled ](https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#docker-in-docker-with-tls-enabled-in-the-docker-executor)
 ### Jenkins custom images
 When utilizing Jenkins in a container, relying on the official `jenkins/jenkins` image may not be sufficient. This is because the Jenkins container needs to install a `Docker client` to connect to `docker:dind` for tasks like pushing application images and running application containers. As a result, it becomes necessary to create custom Jenkins images that include the `Docker client`. The Docker client will then be available within the Jenkins container, enabling seamless interaction with Docker functionalities.\
 To build custom Jenkins images with the Docker client, do the following:
@@ -113,7 +115,7 @@ Refer document :\
 
 Refer document : [Connect from a container to a service on the host](https://docs.docker.com/desktop/networking/#i-want-to-connect-from-a-container-to-a-service-on-the-host)
 
-[Protect the Docker daemon socket](https://docs.docker.com/engine/security/protect-access/)
+
 
 
 
