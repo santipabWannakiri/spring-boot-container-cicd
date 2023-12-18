@@ -31,13 +31,33 @@ The components that will start up with Docker Compose are the following:
   <img src="images/compose-component.jpg" alt="image description" width="750" height="300">
 </p>
 
-#### Docker in Docker (DinD) 
+### Docker in Docker (DinD) 
 In an environment where all components are containerized, it is necessary to provide Jenkins with a Docker engine to facilitate image building and container execution.\
 In this scenario, the use of `docker:dind` is crucial. The `docker:dind` container encompasses both clients, daemons, and a registry. Consequently, after Jenkins completes the image building process, it pushes the images to the `docker:dind` container and initiates the application as a container. This approach is commonly referred to as `Docker in Docker`.
 
+DinD configuration, there are a few more things that we should focus on, including the following:\
+ ```yaml
+  docker:
+    image: docker:dind
+    container_name: docker
+    restart: always
+    privileged: true
+    networks:
+      - docker-daemon
+    environment:
+      - DOCKER_TLS_CERTDIR=/certs
+    volumes:
+      - ../cert:/certs/server
+      - ../jinkens_home:/var/jenkins_home
+    ports:
+      - "2376:2376"
+      - "8081:8081"
+ ```
+> DOCKER_TLS_CERTDIR
+
 Refer document : [How To Run Docker in Docker Container](https://devopscube.com/run-docker-in-docker/)
 
-#### Jenkins custom images
+### Jenkins custom images
 When utilizing Jenkins in a container, relying on the official `jenkins/jenkins` image may not be sufficient. This is because the Jenkins container needs to install a `Docker client` to connect to `docker:dind` for tasks like pushing application images and running application containers. As a result, it becomes necessary to create custom Jenkins images that include the `Docker client`. The Docker client will then be available within the Jenkins container, enabling seamless interaction with Docker functionalities.\
 To build custom Jenkins images with the Docker client, do the following:
  ```Dockerfile
@@ -62,21 +82,41 @@ docker build -f ./path/of/Dockerfile -t name-of-image .
 Refer document : [Jenkins Docker](https://www.jenkins.io/doc/book/installing/docker/)
 
 
-#### Ngrok
+### Ngrok
 In our specific scenario, the triggering of Jenkins by GitHub upon a new commit requires the setup of a webhook on GitHub, with the inclusion of a callback URL. However, given that Jenkins is running as a container locally, GitHub cannot directly reach our local environment.\
 To bridge this gap between the internet and our local setup, `Ngrok` serves as a proxy, facilitating the communication needed for GitHub to interact with Jenkins in our local containerized environment.
 
-[Creating webhooks](https://docs.github.com/en/webhooks/using-webhooks/creating-webhooks)
-[Testing webhooks](https://docs.github.com/en/webhooks/testing-and-troubleshooting-webhooks/testing-webhooks)
+To configure Ngrok you need to do at the following\
+1.Create Ngrok account Login -> Getting Started -> Your Authtoken\
+2.Configure the ngrok Agent Configuration File
+
+ ```yaml
+version: '2'
+authtoken: <-- Your Authtoken -->
+log_level: debug
+log_format: logfmt
+log: /var/log/ngrok.log
+connect_timeout: 30s
+tunnels:
+  github-webhook:
+    addr: host.docker.internal:8080
+    proto: http
+ ```
+Refer document :\
+[Creating webhooks](https://docs.github.com/en/webhooks/using-webhooks/creating-webhooks)\
+[Testing webhooks](https://docs.github.com/en/webhooks/testing-and-troubleshooting-webhooks/testing-webhooks)\
+[Ngrok Agent Configuration](https://ngrok.com/docs/agent/config/#full-example)
 
 
 
+>`host.docker.internal` is a special DNS name provided by Docker for containers to communicate with services running on the host machine. It resolves to the internal IP address of the host from within a Docker container.\
+
+Refer document : [Connect from a container to a service on the host](https://docs.docker.com/desktop/networking/#i-want-to-connect-from-a-container-to-a-service-on-the-host)
 
 [Protect the Docker daemon socket](https://docs.docker.com/engine/security/protect-access/)
 
-[I want to connect from a container to a service on the host](https://docs.docker.com/desktop/networking/#i-want-to-connect-from-a-container-to-a-service-on-the-host)
 
-test commit1 01
+
 
 Remote Docker Daemon
 
