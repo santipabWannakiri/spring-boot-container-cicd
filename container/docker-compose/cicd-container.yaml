@@ -16,7 +16,7 @@ services:
       - "8081:8081"
 
   jenkins:
-    image: myjenkins-blueocean:2.426.1-1
+    image: myjenkins-blueocean:0.1
     container_name: jenkins
     restart: on-failure
     networks:
