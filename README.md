@@ -61,6 +61,7 @@ Refer document :\
 [Docker-in-Docker with TLS enabled ](https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#docker-in-docker-with-tls-enabled-in-the-docker-executor)
 ### Jenkins custom images
 When utilizing Jenkins in a container, relying on the official `jenkins/jenkins` image may not be sufficient. This is because the Jenkins container needs to install a `Docker client` to connect to `docker:dind` for tasks like pushing application images and running application containers. As a result, it becomes necessary to create custom Jenkins images that include the `Docker client`. The Docker client will then be available within the Jenkins container, enabling seamless interaction with Docker functionalities.\
+
 To build custom Jenkins images with the Docker client, do the following:
  ```Dockerfile
 FROM jenkins/jenkins:2.426.1-jdk17
@@ -80,6 +81,31 @@ Then run the Docker command to build images from the script above.
  ```docker
 docker build -f ./path/of/Dockerfile -t name-of-image .
  ```
+Jenkins in docker compose's going to configure at following:
+ ```yaml
+  jenkins:
+    image: myjenkins-blueocean:2.426.1-1
+    container_name: jenkins
+    restart: on-failure
+    networks:
+      - docker-daemon
+    environment:
+      - DOCKER_HOST=tcp://docker:2376
+      - DOCKER_CERT_PATH=/certs/client # Update path to client certificate
+      - DOCKER_TLS_VERIFY=1
+    volumes:
+      - ../cert:/certs/client:ro # Update volume path
+      - ../jinkens_home:/var/jenkins_home
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    depends_on:
+      - docker
+ ```
+> `DOCKER_HOST=tcp://docker:2376` Specifies the Docker daemon's host and port.\
+> `DOCKER_CERT_PATH=/certs/client` Defines the path to the client certificate within the container.\
+> `DOCKER_TLS_VERIFY=1` Enables TLS verification for Docker.\
+> `../cert:/certs/client:ro` Mounts the local TLS certificate directory into the container (../cert, which is the certificate that exports from the DinD configuration above)
 
 Refer document : [Jenkins Docker](https://www.jenkins.io/doc/book/installing/docker/)
 
@@ -107,6 +133,7 @@ tunnels:
 Refer document :\
 [Creating webhooks](https://docs.github.com/en/webhooks/using-webhooks/creating-webhooks)\
 [Testing webhooks](https://docs.github.com/en/webhooks/testing-and-troubleshooting-webhooks/testing-webhooks)\
+[Using ngrok with Docker Compose](https://ngrok.com/docs/using-ngrok-with/docker/)\
 [Ngrok Agent Configuration](https://ngrok.com/docs/agent/config/#full-example)
 
 
