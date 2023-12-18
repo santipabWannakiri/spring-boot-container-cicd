@@ -162,7 +162,12 @@ http://localhost:8080/
 ```sh
 https://plugins.jenkins.io/github/
 ```
-6. Create pipeline New Item -> Pipline -> Pipeline Script -> then provide the script below
+6. Select This project is parameterized -> String Parameter\
+Name: DOCKER_IMAGE_VERSION\
+Default Value: 0.0\
+Description : Docker image version
+
+7. Create pipeline New Item -> Pipline -> Pipeline Script -> then provide the script below
  ```yaml
 properties([parameters([string(defaultValue: '0.0', description: 'Docker image version', name: 'DOCKER_IMAGE_VERSION')])])
 
@@ -221,3 +226,6 @@ pipeline {
 }
 
  ```
+
+8. Select Build Triggers -> GitHub hook trigger for GITScm polling
+9.
