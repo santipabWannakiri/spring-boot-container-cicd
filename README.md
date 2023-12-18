@@ -16,14 +16,22 @@ As depicted in the illustration above, the steps are outlined below:
 `5.`Run container from Docker image created in step 4.2 within the Docker engine.\
 `6.`The anticipated outcome is the ability to access Swagger UI, indicating the successful functioning of our application!\
 
-## Prerequisite
+## Prerequisite for Host 
 1.Github account\
 3.Docker engine and install Docker Compose 
 
-This POC's going to setup everything based on Docker Compose, making it easy to start up all the components and integrate all of them to collaborate with each other.
-
+## Docker Compose 
+This POC's going to setup everything based on Docker Compose, making it easy to start up all the components and integrate all of them to collaborate with each other.\
 The components that will start up with Docker Compose are the following:
-1.
+>1.docker:dind\
+>2.jenkins\
+>3.ngrok
+
+<p align="center">
+  <img src="images/compose-component.jpg" alt="image description" width="750" height="300">
+</p>
+
+#### Docker in Docker (DinD) 
 
 
 [Creating webhooks](https://docs.github.com/en/webhooks/using-webhooks/creating-webhooks)
