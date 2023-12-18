@@ -1,0 +1,10 @@
+version: '2'
+authtoken: 2ZZKqYBLIjhjgVEqhhxAxjoQzjm_5sYE9b4MY4NTgffAHPWrn
+log_level: debug
+log_format: logfmt
+log: /var/log/ngrok.log
+connect_timeout: 30s
+tunnels:
+  github-webhook:
+    addr: host.docker.internal:8080
+    proto: http
