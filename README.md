@@ -33,7 +33,7 @@ The components that will start up with Docker Compose are the following:
 
 #### Docker in Docker (DinD) 
 In an environment where all components are containerized, it is necessary to provide Jenkins with a Docker engine to facilitate image building and container execution.\
-In this scenario, the use of docker:dind is crucial. The docker:dind container encompasses both clients, daemons, and a registry. Consequently, after Jenkins completes the image building process, it pushes the images to the docker:dind container and initiates the application as a container. This approach is commonly referred to as Docker in Docker.
+In this scenario, the use of `docker:dind` is crucial. The docker:dind container encompasses both clients, daemons, and a registry. Consequently, after Jenkins completes the image building process, it pushes the images to the `docker:dind` container and initiates the application as a container. This approach is commonly referred to as `Docker in Docker`.
 
 [Creating webhooks](https://docs.github.com/en/webhooks/using-webhooks/creating-webhooks)
 [Testing webhooks](https://docs.github.com/en/webhooks/testing-and-troubleshooting-webhooks/testing-webhooks)
