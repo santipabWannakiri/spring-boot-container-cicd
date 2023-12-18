@@ -33,12 +33,35 @@ The components that will start up with Docker Compose are the following:
 
 #### Docker in Docker (DinD) 
 In an environment where all components are containerized, it is necessary to provide Jenkins with a Docker engine to facilitate image building and container execution.\
-In this scenario, the use of `docker:dind` is crucial. The docker:dind container encompasses both clients, daemons, and a registry. Consequently, after Jenkins completes the image building process, it pushes the images to the `docker:dind` container and initiates the application as a container. This approach is commonly referred to as `Docker in Docker`.
+In this scenario, the use of `docker:dind` is crucial. The `docker:dind` container encompasses both clients, daemons, and a registry. Consequently, after Jenkins completes the image building process, it pushes the images to the `docker:dind` container and initiates the application as a container. This approach is commonly referred to as `Docker in Docker`.
+
+Refer document : [How To Run Docker in Docker Container](https://devopscube.com/run-docker-in-docker/)
+
+#### Jenkins custom images
+When utilizing Jenkins in a container, relying on the official `jenkins/jenkins` image may not be sufficient. This is because the Jenkins container needs to install a `Docker client` to connect to `docker:dind` for tasks like pushing application images and running application containers. As a result, it becomes necessary to create custom Jenkins images that include the `Docker client`. The Docker client will then be available within the Jenkins container, enabling seamless interaction with Docker functionalities.\
+To build custom Jenkins images with the Docker client, do the following:
+ ```Dockerfile
+FROM jenkins/jenkins:2.426.1-jdk17
+USER root
+RUN apt-get update && apt-get install -y lsb-release
+RUN curl -fsSLo /usr/share/keyrings/docker-archive-keyring.asc \
+  https://download.docker.com/linux/debian/gpg
+RUN echo "deb [arch=$(dpkg --print-architecture) \
+  signed-by=/usr/share/keyrings/docker-archive-keyring.asc] \
+  https://download.docker.com/linux/debian \
+  $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list
+RUN apt-get update && apt-get install -y docker-ce-cli
+USER jenkins
+RUN jenkins-plugin-cli --plugins "blueocean docker-workflow"
+ ```
+Then run the Docker command to build images from the script above.
+ ```docker
+docker build -f ./path/of/Dockerfile -t name-of-image .
+ ```
 
 [Creating webhooks](https://docs.github.com/en/webhooks/using-webhooks/creating-webhooks)
 [Testing webhooks](https://docs.github.com/en/webhooks/testing-and-troubleshooting-webhooks/testing-webhooks)
 
-[How To Run Docker in Docker Container](https://devopscube.com/run-docker-in-docker/)
 
 
 [Jenkins Docker](https://www.jenkins.io/doc/book/installing/docker/)
