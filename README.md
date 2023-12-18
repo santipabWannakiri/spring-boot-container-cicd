@@ -62,6 +62,9 @@ docker build -f ./path/of/Dockerfile -t name-of-image .
 Refer document : [Jenkins Docker](https://www.jenkins.io/doc/book/installing/docker/)
 
 
+#### Ngrok
+In our specific scenario, the triggering of Jenkins by GitHub upon a new commit requires the setup of a webhook on GitHub, with the inclusion of a callback URL. However, given that Jenkins is running as a container locally, GitHub cannot directly reach our local environment.\
+To bridge this gap between the internet and our local setup, `Ngrok` serves as a proxy, facilitating the communication needed for GitHub to interact with Jenkins in our local containerized environment.
 
 [Creating webhooks](https://docs.github.com/en/webhooks/using-webhooks/creating-webhooks)
 [Testing webhooks](https://docs.github.com/en/webhooks/testing-and-troubleshooting-webhooks/testing-webhooks)
