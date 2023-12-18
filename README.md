@@ -148,7 +148,7 @@ Refer document : [Connect from a container to a service on the host](https://doc
 1. Clone project
 2. Build Jenkins custom images
  ```sh
-docker build -f ./path/of/Dockerfile -t name-of-image .
+docker build -f ./container/docker-file/custom-jenkins -t myjenkins-blueocean:2.426.2-1 .
  ```
 3. Login to Ngrok copy authtoken to ./ngrok_home -> ngrok.yml -> authtoken
 
