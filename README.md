@@ -156,7 +156,7 @@ docker build -f ./container/docker-file/custom-jenkins -t myjenkins-blueocean:0.
  ```sh
 docker compose -f ./container/docker-compose/cicd-container.yaml up -d
  ```
-5. Access to Jenkins dashboard
+5. Access to Jenkins dashboard -> copy secret from ./jenkins_home/secrets/initialAdminPassword -> Install plugin
  ```sh
 http://localhost:8080/
  ```
