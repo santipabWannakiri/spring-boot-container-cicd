@@ -143,13 +143,27 @@ Refer document :\
 Refer document : [Connect from a container to a service on the host](https://docs.docker.com/desktop/networking/#i-want-to-connect-from-a-container-to-a-service-on-the-host)
 
 
+## How to run this project
 
-
-
-
-Remote Docker Daemon
-
+1. Clone project
+2. Build Jenkins custom images
+ ```sh
+docker build -f ./path/of/Dockerfile -t name-of-image .
  ```
+3. Start docker compose
+ ```sh
+docker compose -f ./container/docker-compose/cicd-container.yaml up -d
+ ```
+4. Access to Jenkins dashboard
+ ```sh
+http://localhost:8080/
+ ```
+5. Install Github plugin  Manage Jenkins -> Plugins -> Available plugin -> github
+```sh
+https://plugins.jenkins.io/github/
+```
+6. Create pipeline New Item -> Pipline -> Pipeline Script -> then provide the script below
+ ```yaml
 properties([parameters([string(defaultValue: '0.0', description: 'Docker image version', name: 'DOCKER_IMAGE_VERSION')])])
 
 pipeline {
@@ -181,12 +195,10 @@ pipeline {
             steps {
                 script {
                     echo "Building Docker image with version: ${params.DOCKER_IMAGE_VERSION}"
-                    sh "docker build -f ./container/dockerFile/springAppContainer -t app/spring-boot-cicd:${params.DOCKER_IMAGE_VERSION} ."
-  
+                    sh "docker build -f ./container/docker-file/spring-boot-app -t app/spring-boot-cicd:${params.DOCKER_IMAGE_VERSION} ."
                 }
             }
         }
-        
                 stage('Start container') {
             steps {
                 script {
@@ -196,7 +208,6 @@ pipeline {
                 }
             }
         }
-        
     }
 
     post {
