@@ -165,8 +165,8 @@ http://localhost:8080/
 https://plugins.jenkins.io/github/
 https://plugins.jenkins.io/maven-plugin/
 ```
-7. Configure Maven plugin Manage Jenkins -> Tools -> Maven installations -> Add Maven
-Name: maven01
+7. Configure Maven  Manage Jenkins -> Tools -> Maven installations -> Add Maven\
+Name: maven01\
 Version: Select the version of Maven you want to install
 
 8. Select This project is parameterized -> String Parameter\
