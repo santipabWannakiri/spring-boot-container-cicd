@@ -160,9 +160,10 @@ docker compose -f ./container/docker-compose/cicd-container.yaml up -d
  ```sh
 http://localhost:8080/
  ```
-6. Install Github plugin  Manage Jenkins -> Plugins -> Available plugin -> github
+6. Install Github plugin  Manage Jenkins -> Plugins -> Available plugin -> GitHub and Maven Integration
 ```sh
 https://plugins.jenkins.io/github/
+https://plugins.jenkins.io/maven-plugin/
 ```
 7. Select This project is parameterized -> String Parameter\
 Name: DOCKER_IMAGE_VERSION\
