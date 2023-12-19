@@ -169,12 +169,7 @@ https://plugins.jenkins.io/maven-plugin/
 Name: maven01\
 Version: Select the version of Maven you want to install
 
-8. Select This project is parameterized -> String Parameter\
-Name: DOCKER_IMAGE_VERSION\
-Default Value: 0.0\
-Description : Docker image version
-
-9. Create pipeline New Item -> Pipline -> Pipeline Script -> then provide the script below
+8. Create pipeline New Item -> Pipline -> Pipeline Script -> then provide the script below
  ```yaml
 properties([parameters([string(defaultValue: '0.0', description: 'Docker image version', name: 'DOCKER_IMAGE_VERSION')])])
 
@@ -233,10 +228,14 @@ pipeline {
 }
 
  ```
+9. Select This project is parameterized -> String Parameter\
+Name: DOCKER_IMAGE_VERSION\
+Default Value: 0.0\
+Description : Docker image version
 
-10. Select Build Triggers -> GitHub hook trigger for GITScm polling
+11. Select Build Triggers -> GitHub hook trigger for GITScm polling
 
-11. Access to Ngrok portal and copy tunnel URLs
+12. Access to Ngrok portal and copy tunnel URLs
 ```sh
 http://localhost:4040/inspect/http
  ```
